@@ -10,12 +10,13 @@
 #include <BH1750.h>
 
 void setup() {
-    // Hat tip https://www.instructables.com/ESP8266-Pro-Tips/
     WiFi.mode(WIFI_OFF);
     WiFi.forceSleepBegin();
     delay(1);
 
     pinMode(LED_BUILTIN, OUTPUT);
+
+    Serial.begin(115200);
 }
 
 void loop() {
@@ -23,4 +24,7 @@ void loop() {
     delay(250);
     digitalWrite(LED_BUILTIN, HIGH);
     delay(3000);
+
+    // The Office: Traveling Salesman :D
+    Serial.println("Hi!");
 }
