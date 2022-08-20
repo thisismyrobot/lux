@@ -29,40 +29,31 @@ void setup() {
 
     pinMode(LED_BUILTIN, OUTPUT);
 
-    Serial.begin(115200);
-
     Wire.begin(SDA_PIN, SCL_PIN);
     if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
         Serial.println(F("SSD1306 allocation failed"));
         for(;;); // Don't proceed, loop forever
     }
+    display.setTextSize(4);
+    display.setTextColor(SSD1306_WHITE);
     
     lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE_2);
 }
 
 void loop() {
-    // The Office: Traveling Salesman :D
-    Serial.println("Hi!");
-
     digitalWrite(LED_BUILTIN, LOW);
     delay(100);
 
-    float lux = lightMeter.readLightLevel();
-    Serial.print("Light: ");
-    Serial.print(lux);
-    Serial.println(" lx");
-
+    int lux = lightMeter.readLightLevel();
     drawLux(lux);
     
     digitalWrite(LED_BUILTIN, HIGH);
     delay(100);
 }
 
-void drawLux(float lux) {
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(0, 0);
-  display.println(lux);
-  display.display();
+void drawLux(int lux) {
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.print(lux);
+    display.display();
 }
