@@ -54,6 +54,12 @@ void loop() {
 void drawLux(int lux) {
     display.clearDisplay();
     display.setCursor(0, 0);
+
+    int leftPad = 5 - floor(log10(lux) + 1);
+    for(int i=0; i<leftPad; i++) {
+        display.print(" ");
+    }
+    
     display.print(lux);
     display.display();
 }
