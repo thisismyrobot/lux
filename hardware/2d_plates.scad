@@ -1,3 +1,6 @@
+mode = "";
+export = mode == "export";
+
 $fn = 100;
 
 case_width = 55;
@@ -37,13 +40,18 @@ module lower_plate() {
             circle(d=lower_dome_diam);
         }
         cutout_offset = ((lower_display_length - upper_display_length) / 2) - lower_display_length_offset;
-        echo(cutout_offset);
-
         translate([cutout_offset, -upper_display_offset, 0]) {
             square([lower_display_length, lower_display_width], center=true);
         }
     }
 }
 
+module dome() {
+}
+
 upper_plate();
-translate([case_width+10, 0, 0]) lower_plate();
+if (export) {
+    translate([case_width+10, 0, 0]) lower_plate();
+} else {
+    translate([0, 0, -1]) lower_plate();
+}
