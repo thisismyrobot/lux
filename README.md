@@ -2,6 +2,22 @@
 
 A custom lux meter.
 
+## Enclosure
+
+Laser-cut plates added to an purchased enclosure.
+
+### Mock-up
+
+![](hardware/assembled.png)
+
+### Plates
+
+![](hardware/plates.png)
+
+### Outlines
+
+![](hardware/outlines.png)
+
 ## Hat tips
 
 https://www.instructables.com/ESP8266-Pro-Tips/
