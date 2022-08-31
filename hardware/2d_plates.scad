@@ -8,6 +8,10 @@ plate_offset = plate_width / 2;
 
 upper_dome_diam = 25.8;
 lower_dome_diam = 28;
+dome_inner_height = 13; // To hold wire and connector.
+dome_inner_width = 10;
+
+middle_plates = ceil(dome_inner_height / plate_thickness);
 
 box_width = 60.4;
 box_length = 119;
@@ -36,7 +40,7 @@ module plate() {
     }
 }
 
-module upper_plate() {
+module top_plate() {
     difference() {
         plate();
         circle(d=upper_dome_diam);
@@ -46,7 +50,12 @@ module upper_plate() {
 module middle_plate() {
     difference() {
         plate();
-        circle(d=lower_dome_diam);
+        union() {
+            circle(d=lower_dome_diam);
+            translate([-dome_inner_width/2, -box_inset_length-plate_width/2-1, 0]) {
+                square([dome_inner_width, box_inset_length+plate_width/2]);
+            }
+        }
     }
 }
 
@@ -69,16 +78,20 @@ module box() {
 }
 
 if (export) {
-    upper_plate();
-    translate([plate_width+10, 0, 0]) middle_plate();
-    translate([-plate_width-10, 0, 0]) bottom_plate();
+    top_plate();
+    translate([plate_width+10, 0, 0]) bottom_plate();
+    for (p = [0:middle_plates-1]) {
+        translate([p*(plate_width+10), -plate_width*2, 0]) middle_plate();
+    }
 } else {
     translate([0, 0, -plate_thickness]) dome();
     color("grey") box();
     
     color("grey") translate([0, 0, -plate_thickness]) {
-        linear_extrude(height=plate_thickness) upper_plate();
-        translate([0, 0, -plate_thickness]) linear_extrude(height=plate_thickness) middle_plate();
-        translate([0, 0, -plate_thickness*2]) linear_extrude(height=plate_thickness) bottom_plate();
+        linear_extrude(height=plate_thickness) top_plate();
+        for (p = [1:middle_plates]) {
+            translate([0, 0, -p*plate_thickness]) linear_extrude(height=plate_thickness) middle_plate();
+        }
+        translate([0, 0, -plate_thickness*(middle_plates+1)]) linear_extrude(height=plate_thickness) bottom_plate();
     }
 }
