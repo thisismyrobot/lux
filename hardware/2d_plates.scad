@@ -5,6 +5,7 @@ $fn = export ? 150 : 30;
 plate_width = 55;
 plate_thickness = 2;
 plate_offset = plate_width / 2;
+plate_step = 3;
 
 upper_dome_diam = 25.8;
 lower_dome_diam = 28;
@@ -23,10 +24,10 @@ box_post_width = 8;
 box_post_spacing = 34.5; // centres
 box_post_inset = 10.9; // centres
 
-module plate() {
+module plate(step=0) {
     difference() {
         union() {
-            circle(d=plate_width);
+            circle(d=plate_width-step);
             translate([-box_hole_width/2, -plate_width/2-box_inset_length, 0]) square([box_hole_width, box_inset_length + plate_width/2]);
         }
         hull() {
@@ -42,7 +43,7 @@ module plate() {
 
 module top_plate() {
     difference() {
-        plate();
+        plate(plate_step);
         circle(d=upper_dome_diam);
     }
 }
@@ -60,7 +61,7 @@ module middle_plate() {
 }
 
 module bottom_plate() {
-    plate();
+    plate(plate_step);
 }
 
 module dome() {
