@@ -8,6 +8,8 @@ Laser-cut plates added to an purchased enclosure.
 
 [Outlines DXF](https://github.com/thisismyrobot/lux/raw/main/hardware/2d_plates.dxf)
 
+[Preview assembled](hardware/model.stl)
+
 ### Mock-up
 
 ![](hardware/assembled.png)

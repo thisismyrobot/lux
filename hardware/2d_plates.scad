@@ -1,7 +1,6 @@
 mode = "";
 export = mode == "export";
-
-$fn = 150;
+$fn = export ? 150 : 30;
 
 plate_width = 55;
 plate_thickness = 2;
