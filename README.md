@@ -6,6 +6,8 @@ A custom lux meter.
 
 Laser-cut plates added to an purchased enclosure.
 
+[Outlines DXF](hardware/2d_plates.dxf)
+
 ### Mock-up
 
 ![](hardware/assembled.png)
@@ -13,10 +15,6 @@ Laser-cut plates added to an purchased enclosure.
 ### Plates
 
 ![](hardware/plates.png)
-
-### Outlines
-
-![](hardware/outlines.png)
 
 ## Hat tips
 
