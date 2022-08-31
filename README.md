@@ -6,7 +6,7 @@ A custom lux meter.
 
 Laser-cut plates added to an purchased enclosure.
 
-[Outlines DXF](hardware/2d_plates.dxf)
+[Outlines DXF](https://github.com/thisismyrobot/lux/raw/main/hardware/2d_plates.dxf)
 
 ### Mock-up
 
