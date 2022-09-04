@@ -23,6 +23,9 @@ box_inset_length = 16.9;
 box_post_width = 8;
 box_post_spacing = 34.5; // centres
 box_post_inset = 10.9; // centres
+box_ridge_width = 35;
+box_ridge_roll = 1.5;
+box_ridge_drop = 2.5;
 
 box_display_slot_from_end = 24.5;
 box_display_slot_height = 8;
@@ -78,8 +81,36 @@ module dome() {
 
 module box() {
     translate([0, 0, -box_hole_height / 2]) difference() {
-        translate([-box_width/2, -box_length-plate_offset, -box_height/2]) cube([box_width, box_length, box_height]);
+        // Master box
+        union() {
+            base_box_height = box_height-(box_ridge_drop*2);
+            translate([-box_width/2, -box_length-plate_offset, -base_box_height/2]) cube([box_width, box_length, base_box_height]);
+
+            // Top profile
+            hull() {
+                translate([0, -plate_offset, 0]) {
+                    translate([-box_width/2+box_ridge_roll/2, 0, base_box_height/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                    translate([box_width/2-box_ridge_roll/2, 0, base_box_height/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                    translate([-box_ridge_width/2+box_ridge_roll/2, 0, base_box_height/2+box_ridge_drop-box_ridge_roll/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                    translate([box_ridge_width/2-box_ridge_roll/2, 0, base_box_height/2+box_ridge_drop-box_ridge_roll/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                }
+            }   
+
+            // Bottom profile
+            hull() {
+                translate([0, -plate_offset, 0]) {
+                    translate([-box_width/2+box_ridge_roll/2, 0, -base_box_height/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                    translate([box_width/2-box_ridge_roll/2, 0, -base_box_height/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                    translate([-box_ridge_width/2+box_ridge_roll/2, 0, -base_box_height/2-box_ridge_drop+box_ridge_roll/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                    translate([box_ridge_width/2-box_ridge_roll/2, 0, -base_box_height/2-box_ridge_drop+box_ridge_roll/2]) rotate([90, 0, 0]) cylinder(d=box_ridge_roll, h=box_length);
+                }
+            }   
+        }
+        
+        // End cutouts
         translate([-box_hole_width/2, -box_length-plate_offset-1, -box_hole_height/2]) cube([box_hole_width, box_length+2, box_hole_height]);
+
+        // lcd cutout
         translate([0, -plate_offset-(box_display_slot_height/2)-box_display_slot_from_end, box_height/2]) {
             cube([box_display_slot_length, box_display_slot_height, box_height], center=true);
         }
