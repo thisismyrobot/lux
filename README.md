@@ -2,6 +2,15 @@
 
 A custom lux meter.
 
+## Hardware
+
+ - ESP-12F ESP8266 (bare)
+ - BH1750 Ambient Light Sensor
+ - Geekcreit 0.91 128x32 I2C OLED display
+ - Resistors etc to support bare ESP8266
+ - USB -> TTL (3.3v) adaptor for programming
+ - Exact power supply TBD
+
 ## Enclosure
 
 Laser-cut plates added to an purchased enclosure.
