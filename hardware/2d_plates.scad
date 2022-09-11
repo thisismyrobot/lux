@@ -56,16 +56,26 @@ module top_plate() {
     difference() {
         plate(plate_step, box_display_slot_from_end+box_display_slot_height+10);
         circle(d=upper_dome_diam-kerf);
+
+        width = (plate_width-plate_step-upper_dome_diam) / 2;
+        translate([0, upper_dome_diam/2 + width/2, 0]) rotate([0, 0, 45]) square((width/sqrt(2))/1.5, center=true);
     }
 }
 
-module middle_plate() {
+module middle_plate(logo=false) {
     difference() {
         plate();
-        union() {
-            circle(d=lower_dome_diam);
-            translate([-dome_inner_width/2, -box_inset_length-plate_width/2-1, 0]) {
-                square([dome_inner_width, box_inset_length+plate_width/2]);
+        circle(d=lower_dome_diam);
+        translate([-dome_inner_width/2, -box_inset_length-plate_width/2-1, 0]) {
+            square([dome_inner_width, box_inset_length+plate_width/2]);
+        }
+        
+        if (logo) {
+            width = (plate_width-plate_step-upper_dome_diam) / 2;
+            translate([0, upper_dome_diam/2 + width/2, 0]) {
+                rotate([0, 0, 45]) translate([-width/40, 0, 0]) square([width/20, (width/sqrt(2))/2]);
+                rotate([0, 0, 90]) translate([-width/80, 0, 0]) square([width/40, (width/sqrt(2))/2]);
+                rotate([0, 0, 180]) translate([-width/60, -width/60, 0]) square([width/40, (width/sqrt(2))/2]);
             }
         }
     }
@@ -124,7 +134,7 @@ if (export) {
     top_plate();
     translate([plate_width+10, 0, 0]) bottom_plate();
     for (p = [0:middle_plates-1]) {
-        translate([(p+2)*(plate_width+10), 0, 0]) middle_plate();
+        translate([(p+2)*(plate_width+10), 0, 0]) middle_plate(p == 0);
     }
 } else {
     translate([0, 0, -plate_thickness]) dome();
@@ -133,7 +143,7 @@ if (export) {
     color("grey") translate([0, 0, -plate_thickness]) {
         linear_extrude(height=plate_thickness) top_plate();
         for (p = [1:middle_plates + (add_fill_plate ? 1 : 0)]) {
-            translate([0, 0, -p*plate_thickness]) linear_extrude(height=plate_thickness) middle_plate();
+            translate([0, 0, -p*plate_thickness]) linear_extrude(height=plate_thickness) middle_plate(p == 1);
         }
         translate([0, 0, -plate_thickness*(middle_plates+1+(add_fill_plate ? 1 : 0))]) linear_extrude(height=plate_thickness) bottom_plate(add_fill_plate);
     }
