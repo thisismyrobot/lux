@@ -9,10 +9,7 @@ plate_step = 3;
 
 upper_dome_diam = 25.8;
 lower_dome_diam = 28;
-dome_inner_height = 13; // To hold wire and connector.
 dome_inner_width = 10;
-
-middle_plates = ceil(dome_inner_height / plate_thickness);
 
 box_width = 60.4;
 box_length = 119;
@@ -26,6 +23,8 @@ box_post_inset = 10.9; // centres
 box_ridge_width = 35;
 box_ridge_roll = 1.5;
 box_ridge_drop = 2.5;
+
+middle_plates = floor(box_hole_height / plate_thickness) - 2;
 
 box_display_slot_from_end = 24.5;
 box_display_slot_height = 8;
