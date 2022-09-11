@@ -2,6 +2,8 @@ mode = "";
 export = mode == "export";
 $fn = export ? 150 : 30;
 
+kerf = export ? 0.5 : 0;  // mm diameter of laser beam
+
 plate_width = 55;
 plate_thickness = 2;
 plate_offset = plate_width / 2;
@@ -35,17 +37,17 @@ module plate(step=0,tongue=0,trim=0) {
     tongue = trim > 0 ? -trim : tongue;
     difference() {
         union() {
-            circle(d=plate_width-step);
-            translate([-box_hole_width/2, -plate_width/2-box_inset_length+trim, 0]) square([box_hole_width, box_inset_length + plate_width/2 - trim]);
-            translate([-box_hole_width/2+box_post_width, -plate_width/2-box_inset_length-tongue, 0]) square([box_hole_width-(box_post_width*2), box_inset_length + plate_width/2 + tongue]);
+            circle(d=plate_width-step+kerf);
+            translate([-box_hole_width/2-kerf/2, -plate_width/2-box_inset_length+trim, 0]) square([box_hole_width+kerf, box_inset_length + plate_width/2 - trim]);
+            translate([-box_hole_width/2+box_post_width-kerf/2, -plate_width/2-box_inset_length-tongue, 0]) square([box_hole_width-(box_post_width*2)+kerf, box_inset_length + plate_width/2 + tongue]);
         }
         hull() {
-            translate([-box_post_spacing/2, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width);
-            translate([-box_post_spacing, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width);
+            translate([-box_post_spacing/2, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width-kerf);
+            translate([-box_post_spacing, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width-kerf);
         }
         hull() {
-            translate([box_post_spacing/2, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width);
-            translate([box_post_spacing, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width);
+            translate([box_post_spacing/2, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width-kerf);
+            translate([box_post_spacing, -box_post_inset-plate_width/2, 0]) circle(d=box_post_width-kerf);
         }
     }
 }
@@ -53,7 +55,7 @@ module plate(step=0,tongue=0,trim=0) {
 module top_plate() {
     difference() {
         plate(plate_step, box_display_slot_from_end+box_display_slot_height+10);
-        circle(d=upper_dome_diam);
+        circle(d=upper_dome_diam-kerf);
     }
 }
 
