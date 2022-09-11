@@ -31,11 +31,12 @@ box_display_slot_from_end = 24.5;
 box_display_slot_height = 8;
 box_display_slot_length = 25.9;
 
-module plate(step=0,tongue=0) {
+module plate(step=0,tongue=0,trim=0) {
+    tongue = trim > 0 ? -trim : tongue;
     difference() {
         union() {
             circle(d=plate_width-step);
-            translate([-box_hole_width/2, -plate_width/2-box_inset_length-tongue, 0]) square([box_hole_width, box_inset_length + plate_width/2+tongue]);
+            translate([-box_hole_width/2, -plate_width/2-box_inset_length+trim, 0]) square([box_hole_width, box_inset_length + plate_width/2 - trim]);
             translate([-box_hole_width/2+box_post_width, -plate_width/2-box_inset_length-tongue, 0]) square([box_hole_width-(box_post_width*2), box_inset_length + plate_width/2 + tongue]);
         }
         hull() {
@@ -69,7 +70,7 @@ module middle_plate() {
 }
 
 module bottom_plate(add_fill_plate) {
-    plate(plate_step, add_fill_plate ? -box_inset_length : 0);
+    plate(plate_step, 0, add_fill_plate ? box_inset_length : 0);
 }
 
 module dome() {
