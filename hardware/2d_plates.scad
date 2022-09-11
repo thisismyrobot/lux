@@ -25,6 +25,7 @@ box_ridge_roll = 1.5;
 box_ridge_drop = 2.5;
 
 middle_plates = floor(box_hole_height / plate_thickness) - 2;
+add_fill_plate = (middle_plates + 2) * plate_thickness  != box_hole_height;
 
 box_display_slot_from_end = 24.5;
 box_display_slot_height = 8;
@@ -34,7 +35,7 @@ module plate(step=0,tongue=0) {
     difference() {
         union() {
             circle(d=plate_width-step);
-            translate([-box_hole_width/2, -plate_width/2-box_inset_length, 0]) square([box_hole_width, box_inset_length + plate_width/2]);
+            translate([-box_hole_width/2, -plate_width/2-box_inset_length-tongue, 0]) square([box_hole_width, box_inset_length + plate_width/2+tongue]);
             translate([-box_hole_width/2+box_post_width, -plate_width/2-box_inset_length-tongue, 0]) square([box_hole_width-(box_post_width*2), box_inset_length + plate_width/2 + tongue]);
         }
         hull() {
@@ -67,8 +68,8 @@ module middle_plate() {
     }
 }
 
-module bottom_plate() {
-    plate(plate_step);
+module bottom_plate(add_fill_plate) {
+    plate(plate_step, add_fill_plate ? -box_inset_length : 0);
 }
 
 module dome() {
@@ -128,9 +129,9 @@ if (export) {
     
     color("grey") translate([0, 0, -plate_thickness]) {
         linear_extrude(height=plate_thickness) top_plate();
-        for (p = [1:middle_plates]) {
+        for (p = [1:middle_plates + (add_fill_plate ? 1 : 0)]) {
             translate([0, 0, -p*plate_thickness]) linear_extrude(height=plate_thickness) middle_plate();
         }
-        translate([0, 0, -plate_thickness*(middle_plates+1)]) linear_extrude(height=plate_thickness) bottom_plate();
+        translate([0, 0, -plate_thickness*(middle_plates+1+(add_fill_plate ? 1 : 0))]) linear_extrude(height=plate_thickness) bottom_plate(add_fill_plate);
     }
 }
