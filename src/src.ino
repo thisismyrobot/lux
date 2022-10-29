@@ -1,6 +1,6 @@
 /* 
  *  Add board manager URL: http://arduino.esp8266.com/stable/package_esp8266com_index.json
- *  Add board via board manager: esp8266
+ *  Add board via board manager: esp8266 v3.0.2
  *  Select this ESP8266 board: Generic ESP8266 Module
  *  Install Libraries:
  *      - BH1750 v1.3.0
