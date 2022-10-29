@@ -2,15 +2,15 @@ mode = "";
 export = mode == "export";
 $fn = export ? 150 : 30;
 
-kerf = export ? 0.5 : 0;  // mm diameter of laser beam
+kerf = export ? 0.2 : 0;  // mm diameter of laser beam
 
 plate_width = 55;
-plate_thickness = 2;
+plate_thickness = 3;
 plate_offset = plate_width / 2;
 plate_step = 3;
 
-upper_dome_diam = 25.8;
-lower_dome_diam = 28;
+upper_dome_diam = 26;
+lower_dome_diam = 28.1;
 dome_inner_width = 10;
 
 box_width = 60.4;
